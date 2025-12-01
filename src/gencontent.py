@@ -10,23 +10,27 @@ def extract_title(markdown):
             return title_text
     raise Exception("no h1 title found")
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
-    #read markdown file
+    # read markdown file
     from_file = open(from_path, "r")
     markdown_content = from_file.read()
     from_file.close()
-    #read template file
+    # read template file
     template_file = open(template_path, "r")
     template = template_file.read()
     template_file.close()
-    #markdown to html
+    # markdown to html
     node = markdown_to_html_node(markdown_content)
     html = node.to_html()
-    #extract title
+    # extract title
     title= extract_title(markdown_content)
+    # fill template placeholders
     template = template.replace("{{ Title }}", title)
     template = template.replace("{{ Content }}", html)
+    # update links with basepath
+    template = template.replace('href="/', f'href="{basepath}')
+    template = template.replace('src="/', f'src="{basepath}')
     #ensure destination exists and write file
     dest_dir = os.path.dirname(dest_path)
     if dest_dir != "":
@@ -36,7 +40,7 @@ def generate_page(from_path, template_path, dest_path):
     dest_file.write(template)
     dest_file.close()
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
     for root, dirs, files in os.walk(dir_path_content):
         for filename in files:
             if not filename.endswith(".md"):
@@ -49,4 +53,4 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
             dest_path = os.path.join(dest_dir_path, relative_path)
             dest_path = dest_path.replace(".md", ".html")
 
-            generate_page(from_path, template_path, dest_path)
+            generate_page(from_path, template_path, dest_path, basepath)
