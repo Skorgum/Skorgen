@@ -14,3 +14,6 @@ class TestExtract(unittest.TestCase):
             "This is text with a [link](https://www.google.com)"
         )
         self.assertEqual([("link", "https://www.google.com")], matches)
+
+if __name__ == "__main__":
+    unittest.main()

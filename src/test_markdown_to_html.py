@@ -83,3 +83,6 @@ the **same** even with inline stuff
             html,
             "<div><ol><li>first</li><li>second</li><li>third</li></ol></div>"
         )
+
+if __name__ == "__main__":
+    unittest.main()

@@ -91,3 +91,6 @@ This is the same paragraph on a new line
         block = "This is just some text with no markdown"
         blocktype = block_to_block_type(block)
         self.assertEqual(blocktype, BlockType.PARAGRAPH)
+
+if __name__ == "__main__":
+    unittest.main()

@@ -58,3 +58,5 @@ class TestHTMLNode(unittest.TestCase):
             parent_node.to_html(),
             '<div id="42"><a href="https://www.google.com">Click me!</a></div>'
         )
+if __name__ == "__main__":
+    unittest.main()
